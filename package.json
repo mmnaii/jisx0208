@@ -1,0 +1,19 @@
+{
+  "name": "jisx0208",
+  "version": "1.0.0",
+  "description": "A library for conversion about the row-cell of JIS X 0208",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "JIS X 0208",
+    "Shift_JIS",
+    "EUC-JP",
+    "row",
+    "cell"
+  ],
+  "private": true,
+  "author": "minami",
+  "license": "MIT"
+}
