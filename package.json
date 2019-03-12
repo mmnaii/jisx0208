@@ -2,7 +2,10 @@
   "name": "jisx0208",
   "version": "1.0.0",
   "description": "A library for conversion about the row-cell of JIS X 0208",
-  "main": "index.js",
+  "main": "./src/jisx0208.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
