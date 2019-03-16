@@ -13,7 +13,7 @@ jisx0208 provides methods about the row-cell defined by the `JIS X 0208`.
 
 ## Install
 
-    npm install jisx0208
+    npm install @mmnaii/jisx0208
 
 
 ## Examples
@@ -21,7 +21,7 @@ jisx0208 provides methods about the row-cell defined by the `JIS X 0208`.
 * To convert a row-cell to the corresponding code of Shift_JIS:
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // {16, 1}, [0x88, 0x9F](Shift_JIS) : "亜"
 jisx0208.rowCellToSjis(16, 1);// [136, 159] ([0x88, 0x9F])
@@ -30,7 +30,7 @@ jisx0208.rowCellToSjis(16, 1);// [136, 159] ([0x88, 0x9F])
 * To convert a code of EUC-JP to the corresponding row-cell:
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // {84, 6}, [0xF4, 0xA6](EUC-JP) : "熙"
 jisx0208.eucjpToRowCell(0xF4, 0xA6);// [84, 6]
@@ -48,7 +48,7 @@ As far as a row-cell is in the range of {1, 1} to {94, 94}, the operation that i
 ```javascript
 // Round-trip conversion
 
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 for (let row=1; row<=94; row++) {
 	for (let cell=1; cell<=94; cell++) {
@@ -71,7 +71,7 @@ for (let row=1; row<=94; row++) {
 Returns `true` if a character is defined at the a row-cell {`row`, `cell`} by the `JIS X 0208`, `false` otherwise. 
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // {5, 2} : "ア"
 jisx0208.isAssigned(5, 2);// true
@@ -97,7 +97,7 @@ Setting `noAssert` to `true` omits the validation whether a character is assigne
 The arguments `c1` and `c2` are converted to eight bit unsigned integers before the operation.
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // [0xA5, 0xA2](EUC-JP) : "ア"
 jisx0208.eucjpToRowCell(0xA5, 0xA2);// [5, 2]
@@ -128,7 +128,7 @@ Setting `noAssert` to `true` omits the validation whether a character is assigne
 The arguments `c1` and `c2` are converted to eight bit unsigned integers before the operation.
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // [0x83, 0x41](Shift_JIS) : "ア"
 jisx0208.sjisToRowCell(0x83, 0x41);// [5, 2]
@@ -156,7 +156,7 @@ Does not convert to characters represented using single shifts.
 Setting `noAssert` to `true` omits the validation whether a character is assigned at the row-cell {`row`, `cell`}. But if {`row`, `cell`} is not in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // {5, 2} : "ア"
 jisx0208.rowCellToEucjp(5, 2);// [165, 162] ([0xA5, 0xA2])
@@ -181,7 +181,7 @@ Does not convert to characters included in the character set defined by the `JIS
 Setting `noAssert` to `true` omits the validation whether a character is assigned at the row-cell {`row`, `cell`}. But if {`row`, `cell`} is not in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // {5, 2} : "ア"
 jisx0208.rowCellToSjis(5, 2);// [131, 65] ([0x83, 0x41])
@@ -204,7 +204,7 @@ But returns `null` if the `code` is not in the range where katakana graphic char
 The argument `code` are converted to eight bit unsigned integers before the operation.
 
 ```javascript
-const jisx0208 = require('jisx0208');
+const jisx0208 = require('@mmnaii/jisx0208');
 
 // [0xB1](JIS X 0201(8bit), Shift_JIS) : "ｱ" (HALFWIDTH KATAKANA LETTER A)
 jisx0208.halfkanaToRowCell(0xB1);// [5, 2]
