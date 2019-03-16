@@ -1,4 +1,5 @@
-const {rowcell, jisx0201kana} = require("./rowcell.js");
+const rowcell = require("./table/rowcell.js");
+const jisx0201kana = require("./table/jisx0201kana.js");
 
 function toUint8(a) {
 	return Number(a) >>> 0 & 255;
