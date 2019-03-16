@@ -17,7 +17,7 @@
     "row",
     "cell"
   ],
-  "private": true,
+  "private": false,
   "publishConfig": {
     "access": "public"
   },
