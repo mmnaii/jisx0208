@@ -7,8 +7,7 @@
     "src"
   ],
   "scripts": {
-    "test": "nyc ava",
-    "report": "nyc report --reporter=html ava"
+    "test": "node --experimental-test-coverage"
   },
   "keywords": [
     "JIS X 0208",
@@ -23,12 +22,5 @@
   },
   "author": "minami",
   "repository": "github:mmnaii/jisx0208",
-  "license": "MIT",
-  "devDependencies": {
-    "ava": "^1.3.1",
-    "nyc": "^13.3.0"
-  },
-  "ava": {
-    "verbose": true
-  }
+  "license": "MIT"
 }
