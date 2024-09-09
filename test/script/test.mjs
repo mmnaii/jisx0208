@@ -1,11 +1,11 @@
-console.log("##test: required from CommonJS");
+console.log("##test: imported from ESM");
 
-const test = require("node:test");
+import test from "node:test";
 
-const fs = require("node:fs").promises;
-const assert = require("node:assert");
+import {promises as fs} from "node:fs";
+import assert from "node:assert";
 
-const jisx0208 = require("../../src/jisx0208.js");
+import jisx0208 from "../../src/jisx0208.js";
 
 
 const resources = {};

@@ -7,7 +7,9 @@
     "src"
   ],
   "scripts": {
-    "test": "node --experimental-test-coverage"
+    "test": "npm run test-cjs && npm run test-mjs",
+    "test-cjs": "node --experimental-test-coverage ./test/script/test.js",
+    "test-mjs": "node --experimental-test-coverage ./test/script/test.mjs"
   },
   "keywords": [
     "JIS X 0208",
