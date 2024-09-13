@@ -2,14 +2,22 @@
   "name": "@mmnaii/jisx0208",
   "version": "1.0.0",
   "description": "A library for conversion about the row-cell of JIS X 0208",
-  "main": "./src/jisx0208.js",
+  "type": "module",
+  "main": "./lib/jisx0208.js",
+  "exports": {
+    "import": "./lib/jisx0208.js",
+    "require": "./lib/jisx0208.cjs"
+  },
   "files": [
-    "src"
+    "lib"
   ],
   "scripts": {
     "test": "npm run test-cjs && npm run test-mjs",
-    "test-cjs": "node --experimental-test-coverage ./test/script/test.js",
-    "test-mjs": "node --experimental-test-coverage ./test/script/test.mjs"
+    "test-cjs": "node --test ./test/script/test.cjs",
+    "test-mjs": "node --test ./test/script/test.js",
+    "build": "npm run build-mjs && npm run build-cjs && npm test",
+    "build-mjs": "esbuild ./src/jisx0208.js --bundle --format=esm --outfile=./lib/jisx0208.js",
+    "build-cjs": "esbuild ./src/jisx0208.js --bundle --format=cjs --outfile=./lib/jisx0208.cjs"
   },
   "keywords": [
     "JIS X 0208",
@@ -24,5 +32,8 @@
   },
   "author": "minami",
   "repository": "github:mmnaii/jisx0208",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.23.1"
+  }
 }

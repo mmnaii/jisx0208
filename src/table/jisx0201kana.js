@@ -1,4 +1,4 @@
-const jisx0201kana = [];
+export const jisx0201kana = [];
 jisx0201kana[0xa1] = [ 1,  3]; /* 。 */
 jisx0201kana[0xa2] = [ 1, 54]; /* 「 */
 jisx0201kana[0xa3] = [ 1, 55]; /* 」 */
@@ -64,5 +64,4 @@ jisx0201kana[0xde] = [ 1, 11]; /* ゛ */
 jisx0201kana[0xdf] = [ 1, 12]; /* ゜ */
 
 
-module.exports = jisx0201kana;
 

@@ -1,4 +1,4 @@
-const rowcell = Array(95).fill(null).map(()=>[]);
+export const rowcell = Array(95).fill(null).map(()=>[]);
 rowcell[ 1][ 1] = '　';
 rowcell[ 1][ 2] = '、';
 rowcell[ 1][ 3] = '。';
@@ -8837,5 +8837,4 @@ rowcell[94][93] = '';
 rowcell[94][94] = '';
 
 
-module.exports = rowcell;
 
