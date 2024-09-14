@@ -8,7 +8,7 @@ jisx0208 provides methods about the row-cell defined by the `JIS X 0208`.
 
 ## Requirements
 
-* [node.js](http://nodejs.org/) -- v8 or newer
+* [node.js](http://nodejs.org/) -- v12 or newer
 
 
 ## Install
@@ -21,25 +21,25 @@ jisx0208 provides methods about the row-cell defined by the `JIS X 0208`.
 * To convert a row-cell to the corresponding code of Shift_JIS:
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {rowCellToSjis} from '@mmnaii/jisx0208';
 
 // {16, 1}, [0x88, 0x9F](Shift_JIS) : "亜"
-jisx0208.rowCellToSjis(16, 1);// [136, 159] ([0x88, 0x9F])
+rowCellToSjis(16, 1);// [136, 159] ([0x88, 0x9F])
 ```
 
 * To convert a code of EUC-JP to the corresponding row-cell:
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {eucjpToRowCell} from '@mmnaii/jisx0208';
 
 // {84, 6}, [0xF4, 0xA6](EUC-JP) : "熙"
-jisx0208.eucjpToRowCell(0xF4, 0xA6);// [84, 6]
+eucjpToRowCell(0xF4, 0xA6);// [84, 6]
 ```
 
 
 ## Encoding
 
-To the row-cell of the `JIS X 0208`, the edition 1990 or later applies.
+An assignment of characters to row-cells of the `JIS X 0208` follows the edition 1997.
 
 As the encoding scheme to and from which a row-cell is converted, `EUC-JP` and `Shift_JIS` are supported.
 
@@ -48,12 +48,12 @@ As far as a row-cell is in the range of {1, 1} to {94, 94}, the operation that i
 ```javascript
 // Round-trip conversion
 
-const jisx0208 = require('@mmnaii/jisx0208');
+import {sjisToRowCell, rowCellToSjis, eucjpToRowCell, rowCellToEucjp} from '@mmnaii/jisx0208';
 
 for (let row=1; row<=94; row++) {
 	for (let cell=1; cell<=94; cell++) {
-		assert.deepEqual([row, cell], jisx0208.sjisToRowCell(...jisx0208.rowCellToSjis(row, cell, true), true));
-		assert.deepEqual([row, cell], jisx0208.eucjpToRowCell(...jisx0208.rowCellToEucjp(row, cell, true), true));
+		assert.deepEqual([row, cell], sjisToRowCell(...rowCellToSjis(row, cell, true), true));
+		assert.deepEqual([row, cell], eucjpToRowCell(...rowCellToEucjp(row, cell, true), true));
 	}
 }
 // OK
@@ -68,16 +68,16 @@ for (let row=1; row<=94; row++) {
 * `cell` {Integer}
 * Returns: {Boolean}
 
-Returns `true` if a character is defined at the a row-cell {`row`, `cell`} by the `JIS X 0208`, `false` otherwise. 
+Returns `true` if a character is defined at a row-cell {`row`, `cell`} by the `JIS X 0208`, `false` otherwise. 
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {isAssigned} from '@mmnaii/jisx0208';
 
 // {5, 2} : "ア"
-jisx0208.isAssigned(5, 2);// true
+isAssigned(5, 2);// true
 
 // {13, 1} : "①", (CP932)
-jisx0208.isAssigned(13, 1);// false
+isAssigned(13, 1);// false
 ```
 
 
@@ -90,25 +90,25 @@ jisx0208.isAssigned(13, 1);// false
 
 Interpreting a two bytes sequence of codes [`c1`, `c2`] as a character represented by the `EUC-JP`, converts it to a row-cell of the `JIS X 0208` and returns an array, of which length is 2, that contains the results in order of [`row`, `cell`]. Returns `null` if `JIS X 0208` does not assigned a character at the converted row-cell.
 
-A conversion from characters represented using single shifts to row-cells is not supported.
+A conversion from characters represented by using a single shift to row-cells is not supported.
 
-Setting `noAssert` to `true` omits the validation whether a character is assigned at the converted row-cell. But if [`c1`, `c2`] cannot be converted to the row-cell in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
+Setting `noAssert` to `true` omits the validation whether a character is assigned at the converted row-cell. But if [`c1`, `c2`] cannot be converted to a row-cell in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
 
 The arguments `c1` and `c2` are converted to eight bit unsigned integers before the operation.
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {eucjpToRowCell} from '@mmnaii/jisx0208';
 
 // [0xA5, 0xA2](EUC-JP) : "ア"
-jisx0208.eucjpToRowCell(0xA5, 0xA2);// [5, 2]
+eucjpToRowCell(0xA5, 0xA2);// [5, 2]
 
 // [0x8E, 0xB1](EUC-JP) : "ｱ" (HALFWIDTH KATAKANA LETTER A)
-jisx0208.eucjpToRowCell(0x8E, 0xB1);// null
-jisx0208.eucjpToRowCell(0x8E, 0xB1, true);// null
+eucjpToRowCell(0x8E, 0xB1);// null
+eucjpToRowCell(0x8E, 0xB1, true);// null
 
 // [0xAD, 0xA1](EUC-JP) : Not Assigned
-jisx0208.eucjpToRowCell(0xAD, 0xA1);// null
-jisx0208.eucjpToRowCell(0xAD, 0xA1, true);// [13, 1]
+eucjpToRowCell(0xAD, 0xA1);// null
+eucjpToRowCell(0xAD, 0xA1, true);// [13, 1]
 ```
 
 
@@ -123,22 +123,22 @@ Interpreting a two bytes sequence of codes [`c1`, `c2`] as a character represent
 
 A conversion from characters included in the character set defined by the `JIS X 0201` to row-cells is not supported.
 
-Setting `noAssert` to `true` omits the validation whether a character is assigned at the converted row-cell. But if [`c1`, `c2`] cannot be converted to the row-cell in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
+Setting `noAssert` to `true` omits the validation whether a character is assigned at the converted row-cell. But if [`c1`, `c2`] cannot be converted to a row-cell in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
 
 The arguments `c1` and `c2` are converted to eight bit unsigned integers before the operation.
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {sjisToRowCell} from '@mmnaii/jisx0208';
 
 // [0x83, 0x41](Shift_JIS) : "ア"
-jisx0208.sjisToRowCell(0x83, 0x41);// [5, 2]
+sjisToRowCell(0x83, 0x41);// [5, 2]
 
 // [0xB1](EUC-JP) : "ｱ" (HALFWIDTH KATAKANA LETTER A)
-jisx0208.sjisToRowCell(0xB1);// null
+sjisToRowCell(0xB1);// null
 
 // [0x87, 0x40](CP932) : "①"
-jisx0208.sjisToRowCell(0x87, 0x40);// null
-jisx0208.sjisToRowCell(0x87, 0x40, true);// [13, 1]
+sjisToRowCell(0x87, 0x40);// null
+sjisToRowCell(0x87, 0x40, true);// [13, 1]
 ```
 
 
@@ -149,21 +149,21 @@ jisx0208.sjisToRowCell(0x87, 0x40, true);// [13, 1]
 * `noAssert` {Boolean} Skip assignment validation? **Default**: `false`
 * Returns: {Array|null}
 
-Encodes a character assigned at the row-cell {`row`, `cell`} in `EUC-JP` and returns the result, that is a two bytes sequence of codes [`c1`, `c2`], as an array, of which length is 2. Returns `null` if `JIS X 0208` does not assigned a character at the converted row-cell.
+Encodes a character assigned at a row-cell {`row`, `cell`} in `EUC-JP` and returns the result, that is a two bytes sequence of codes [`c1`, `c2`], as an array, of which length is 2. Returns `null` if `JIS X 0208` does not assigned a character at the converted row-cell.
 
-Does not convert to characters represented using single shifts.
+Does not convert to characters represented by using a single shift.
 
 Setting `noAssert` to `true` omits the validation whether a character is assigned at the row-cell {`row`, `cell`}. But if {`row`, `cell`} is not in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {rowCellToEucjp} from '@mmnaii/jisx0208';
 
 // {5, 2} : "ア"
-jisx0208.rowCellToEucjp(5, 2);// [165, 162] ([0xA5, 0xA2])
+rowCellToEucjp(5, 2);// [165, 162] ([0xA5, 0xA2])
 
 // {13, 1} : "①", (CP932)
-jisx0208.rowCellToEucjp(13, 1);// null
-jisx0208.rowCellToEucjp(13, 1, true);// [173, 161] (0xAD, 0xA1)
+rowCellToEucjp(13, 1);// null
+rowCellToEucjp(13, 1, true);// [173, 161] (0xAD, 0xA1)
 ```
 
 
@@ -174,21 +174,21 @@ jisx0208.rowCellToEucjp(13, 1, true);// [173, 161] (0xAD, 0xA1)
 * `noAssert` {Boolean} Skip assignment validation? **Default**: `false`
 * Returns: {Array|null}
 
-Encodes a character assigned at the row-cell {`row`, `cell`} in `Shift_JIS` and returns the result, that is a two bytes sequence of codes [`c1`, `c2`], as an array, of which length is 2. Returns `null` if `JIS X 0208` does not assigned a character at the converted row-cell.
+Encodes a character assigned at a row-cell {`row`, `cell`} in `Shift_JIS` and returns the result, that is a two bytes sequence of codes [`c1`, `c2`], as an array, of which length is 2. Returns `null` if `JIS X 0208` does not assigned a character at the converted row-cell.
 
 Does not convert to characters included in the character set defined by the `JIS X 0201`.
 
 Setting `noAssert` to `true` omits the validation whether a character is assigned at the row-cell {`row`, `cell`}. But if {`row`, `cell`} is not in the range of {1, 1} to {94, 94}, returns `null` regardless the setting of `noAssert`.
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {rowCellToSjis} from '@mmnaii/jisx0208';
 
 // {5, 2} : "ア"
-jisx0208.rowCellToSjis(5, 2);// [131, 65] ([0x83, 0x41])
+rowCellToSjis(5, 2);// [131, 65] ([0x83, 0x41])
 
 // {13, 1} : "①", (CP932)
-jisx0208.rowCellToSjis(13, 1);// null
-jisx0208.rowCellToSjis(13, 1, true);// [135, 64] ([0x87, 0x40])
+rowCellToSjis(13, 1);// null
+rowCellToSjis(13, 1, true);// [135, 64] ([0x87, 0x40])
 ```
 
 
@@ -204,13 +204,13 @@ But returns `null` if the `code` is not in the range where katakana graphic char
 The argument `code` are converted to eight bit unsigned integers before the operation.
 
 ```javascript
-const jisx0208 = require('@mmnaii/jisx0208');
+import {halfkanaToRowCell} from '@mmnaii/jisx0208';
 
 // [0xB1](JIS X 0201(8bit), Shift_JIS) : "ｱ" (HALFWIDTH KATAKANA LETTER A)
-jisx0208.halfkanaToRowCell(0xB1);// [5, 2]
+halfkanaToRowCell(0xB1);// [5, 2]
 // {5, 2} : "ア" (KATAKANA LETTER A)
 
 // [0x40](JIS X 0201(8bit), Shift_JIS) ; "A"
-jisx0208.halfkanaToRowCell(0x40);// null
+halfkanaToRowCell(0x40);// null
 ```
 
