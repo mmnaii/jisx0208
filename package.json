@@ -31,7 +31,10 @@
     "access": "public"
   },
   "author": "minami",
-  "repository": "github:mmnaii/jisx0208",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mmnaii/jisx0208.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "esbuild": "^0.23.1"
